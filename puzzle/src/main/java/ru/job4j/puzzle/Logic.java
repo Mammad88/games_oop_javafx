@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * //TODO add comments.
  *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * @author Bruki Mammad (bruki_mammad@mail.ru)
  * @version $Id$
  * @since 0.1
  */
@@ -70,7 +70,24 @@ public class Logic {
 
     public boolean isWin() {
         int[][] table = this.convert();
-        boolean result = false;
+        boolean result = true;
+        for (int i = 0; i < table.length; i++) {
+            if (table[0][i] == 1) {
+                for (int y = 1; y < table.length; y++) {
+                    if (table[y][i] == 0) {
+                        result = false;
+                        break;
+                    }
+                }
+            } else if (table[i][0] == 1) {
+                for (int x = 1; x < table[i].length; x++) {
+                    if (table[i][x] == 0) {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+        }
         return result;
     }
 
