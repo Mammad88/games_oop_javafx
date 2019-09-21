@@ -71,15 +71,28 @@ public class Logic {
     public boolean isWin() {
         int[][] table = this.convert();
         boolean result = false;
-        int i = -1;
-        while (!result && ++i < this.size) {
-            boolean horis = true;
-            boolean vert = true;
-            for (int j = 0; j < this.size; j++) {
-                horis &= (table[i][j] == 1);
-                vert &= (table[j][i] == 1);
+        int horisontally = 0;
+        int vertically = 0;
+        /* МЫ выигрываем,
+         когда у нас по горизонтали или по вертикали все единицы.
+         */
+        for (int i = 0; i < table.length; i++) {
+            if (horisontally == table.length || vertically == table[0].length) {
+                result = true;
+                break;
             }
-            result = horis || vert;
+            horisontally = 0;
+            vertically = 0;
+            // Считаем сколько единиц по горизонтали.
+            for (int j = 0; j < table[0].length; j++) {
+                if (table[i][j] == 1) {
+                    horisontally++;
+                }
+                // Считаем сколько единиц по вертикали.
+                if (table[j][i] == 1) {
+                    vertically++;
+                }
+            }
         }
         return result;
     }
