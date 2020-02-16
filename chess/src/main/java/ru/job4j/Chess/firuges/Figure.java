@@ -1,9 +1,9 @@
-package ru.job4j.chess.firuges;
+package ru.job4j.Chess.firuges;
 
 public interface Figure {
     Cell position();
 
-    Cell[] way(Cell source, Cell dest);
+    Cell[] way(Cell source, Cell dest) throws IllegalStateException;
 
     default String icon() {
         return String.format(
