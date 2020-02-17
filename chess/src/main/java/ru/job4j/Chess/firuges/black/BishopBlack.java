@@ -18,7 +18,6 @@ public class BishopBlack implements Figure {
         this.position = position;
     }
 
-
     @Override
     public Cell position() {
         return this.position;
