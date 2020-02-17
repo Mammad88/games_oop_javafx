@@ -1,7 +1,10 @@
 package ru.job4j.Chess.firuges.black;
 
+import ru.job4j.Chess.Exception.ImpossibleMoveException;
 import ru.job4j.Chess.firuges.Cell;
 import ru.job4j.Chess.firuges.Figure;
+
+import java.util.Arrays;
 
 /**
  * @author Bruki Mammad (bruki_mammad@mail.ru )
@@ -32,23 +35,30 @@ public class BishopBlack implements Figure {
     @Override
     public Cell[] way(Cell source, Cell dest) {
         if (!isDiagonal(source, dest)) {
-            throw new IllegalStateException(
-                    String.format("Could not move by diagonal from %s to %s", source, dest)
-            );
+            throw new ImpossibleMoveException();
         }
-        int size = Math.abs(dest.x - source.x);
-        Cell[] steps = new Cell[size];
-        for (int index = 0; index < size; index++) {
-            int deltaX = (source.x < dest.x) ? source.x + index + 1 : source.x - index - 1;
-            int deltaY = (source.y < dest.y) ? source.y + index + 1 : source.y - index - 1;
-            steps[index] = Cell.findBy(deltaX, deltaY);
+        Cell[] steps = new Cell[Math.abs(dest.x - source.x)];
+        int deltaX = (dest.x - source.x) < 0 ? -1 : 1;
+        int deltaY = (dest.y - source.y) < 0 ? -1 : 1;
+        for (int index = 0; index < Math.abs(dest.x - source.x); index++) {
+            steps[index] = findStepCell(source.x + (index + 1) * deltaX, source.y + (index + 1) * deltaY);
         }
         return steps;
     }
 
     public boolean isDiagonal(Cell source, Cell dest) {
-        //TODO check diagonal
-        return true;
+        boolean result = false;
+        if (Math.abs(dest.x - source.x) == Math.abs(dest.y - source.y)) {
+            result = true;
+        }
+        return result;
+    }
+
+    private Cell findStepCell(int x, int y) {
+        return Arrays.stream(Cell.values())
+                .filter(cell -> cell.x == x && cell.y == y)
+                .findFirst()
+                .orElseThrow(ImpossibleMoveException::new);
     }
 
     @Override
